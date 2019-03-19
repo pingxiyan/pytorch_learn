@@ -8,7 +8,7 @@ https://morvanzhou.github.io/tutorials/machine-learning/torch/ <br>
 # Install
 #### Windows Binary
 
-  $ conda install pytorch torchvision cudatoolkit=10.0 -c pytorch
+    $ conda install pytorch torchvision cudatoolkit=10.0 -c pytorch
 
 
 # Train CNN classifier
