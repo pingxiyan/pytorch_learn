@@ -26,7 +26,7 @@ transform = transforms.Compose(
 testset = torchvision.datasets.CIFAR10(root='./data', train=False,
                                        download=True, transform=transform)
 testloader = torch.utils.data.DataLoader(testset, batch_size=batch_size,
-                                         shuffle=False, num_workers=2)
+                                         shuffle=False, num_workers=0)
 classes = ('plane', 'car', 'bird', 'cat',
            'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
 
@@ -63,4 +63,5 @@ def main(mid_model_name):
     
 if __name__ == '__main__':
     mid_model_name = '/home/xiping/mygithub/pytorch_learn/train_cnn_cifar10/output/1_12000_loss_1.297938.pt'
+    mid_model_name = "C:\\SandyWork\\mygithub\\pytorch_learn\\train_cnn_cifar10\\output\\1_12000_loss_1.2831.pt"
     main(mid_model_name)
