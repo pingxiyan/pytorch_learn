@@ -15,6 +15,13 @@ import numpy as np
 import torch.nn as nn
 import torch.nn.functional as F
 
+from timeit import default_timer as timer
+import os
+
+#####################################################################
+output_dir="./output/"
+if not os.path.exists(output_dir):
+    os.mkdir(output_dir)
 
 # Normalize:
 # input[channel] = (input[channel] - mean[channel]) / std[channel]
@@ -54,8 +61,6 @@ imshow(torchvision.utils.make_grid(images))
 # print labels
 print(' '.join('%5s' % classes[labels[j]] for j in range(4)))
 
-
-
 ################################################################
 class Net(nn.Module):
     def __init__(self):
@@ -80,18 +85,38 @@ class Net(nn.Module):
 net = Net()
 
 ###################################################################
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+#device = "cpu"
+# Assuming that we are on a CUDA machine, this should print a CUDA device:
+print('device = ', device)
+net.to(device)
+
+###################################################################
 import torch.optim as optim
 
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
 
+def save_mid_model(epoch, i, loss_val, net, optimizer):
+    mid_name = str(epoch) + "_" + str(i+1) + "_loss_" + str(round(loss_val, 4)) + ".pt"
+    print("save midel result:", mid_name)
+    torch.save({
+            'epoch': epoch,
+            'model_state_dict': net.state_dict(),
+            'optimizer_state_dict': optimizer.state_dict(),
+            'loss': loss
+            }, output_dir + mid_name)
+    
 ###################################################################
 for epoch in range(2):  # loop over the dataset multiple times
 
     running_loss = 0.0
+    tm1 = timer()
     for i, data in enumerate(trainloader, 0):
         # get the inputs
         inputs, labels = data
+        
+        inputs, labels = inputs.to(device), labels.to(device)
 
         # zero the parameter gradients
         optimizer.zero_grad()
@@ -105,8 +130,11 @@ for epoch in range(2):  # loop over the dataset multiple times
         # print statistics
         running_loss += loss.item()
         if i % 2000 == 1999:    # print every 2000 mini-batches
+            tm2 = timer()
             print('[%d, %5d] loss: %.3f' %
-                  (epoch + 1, i + 1, running_loss / 2000))
+                  (epoch + 1, i + 1, running_loss / 2000), " tm = ", (tm2-tm1), "s")
+            save_mid_model(epoch, i, running_loss / 2000, net, optimizer)
             running_loss = 0.0
+            tm1 = tm2           
 
 print('Finished Training')
