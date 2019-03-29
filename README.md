@@ -8,6 +8,7 @@ https://morvanzhou.github.io/tutorials/machine-learning/torch/ <br>
 # Install
 #### Windows Binary
 
+    $ start anaconda prompt by adminstrator
     $ conda install pytorch torchvision cudatoolkit=10.0 -c pytorch
 
 #### Ubuntu
