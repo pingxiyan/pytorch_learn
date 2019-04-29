@@ -78,39 +78,43 @@
 
 
 int main() {
+#ifdef WIN32
+	std::string mpath = "C:\\SandyWork\\chongqing_work\\Human-Segmentation-PyTorch\\UNet_MobileNetV2.tar\\UNet_MobileNetV2\\";
+	std::string model_path = mpath + "UNet_MobileNetV2.pth";
+	model_path = "C:\\SandyWork\\mygithub\\pytorch_learn\\train_cnn_cifar10\\output\\1_12000_loss_1.2831.pts";
+	std::string image_path = "../cat.jpg";
+#else
 	std::string model_path = "/home/xiping/mygithub/pytorch_learn/train_cnn_cifar10/output/1_12000_loss_1.2968.pt";
 	std::string image_path = "/home/xiping/mygithub/pytorch_learn/train_cnn_cifar10/bb.bmp";
+#endif
 
 	cv::Mat image = cv::imread(image_path);
+	cv::Mat rsz;
+	cv::resize(image, rsz, cv::Size(32, 32));
+	//cv::namedWindow("test", 1);
+	//cv::imshow("test", image);
+	//cv::waitKey(0);
+
+	std::cout << "run to:" << __LINE__ << std::endl;
 	std::shared_ptr<torch::jit::script::Module> module;
+	std::cout << "run to:" << __LINE__ << std::endl;
+	std::cout << model_path << std::endl;
 
-//	test(model_path, image);
-	std::cout << "00000000000000000" << std::endl;
 	// Deserialize the ScriptModule from a file using torch::jit::load().
-	try{
-
 	module = torch::jit::load(model_path);
-//	module = torch::load(model_path)
+	std::cout << "run to:" << __LINE__ << std::endl;
 	assert(module != nullptr);
-	}
-	catch (std::exception* ex){
-		std::cout << ex->what() << std::endl;
-		return 0;
-	}
-	std::vector<torch::jit::IValue> inputs;
-std::cout << "00000000000000000" << std::endl;
 
-	at::Tensor tensor_image = torch::from_blob(image.data, {1, 3, image.rows, image.cols}, at::kByte);
+	std::vector<torch::jit::IValue> inputs;
+	std::cout << "run to:" << __LINE__ << std::endl;
+
+	at::Tensor tensor_image = torch::from_blob(rsz.data, {1, 3, rsz.rows, rsz.cols}, at::kByte);
 	tensor_image = tensor_image.to(at::kFloat);
 
-	std::cout << "00000000000000000" << std::endl;
 	inputs.push_back(tensor_image);
-	std::cout << "00000000000000000" << std::endl;
-//	inputs.push_back(torch::ones({1, 3, 224, 224}));
 
 	// Execute the model and turn its output into a tensor.
 	at::Tensor output = module->forward(inputs).toTensor();
-	std::cout << "00000000000000000" << std::endl;
-	std::cout << output.slice(/*dim=*/1, /*start=*/0, /*end=*/10) << '\n';
 
+	std::cout << output.slice(/*dim=*/1, /*start=*/0, /*end=*/10) << '\n';
 }

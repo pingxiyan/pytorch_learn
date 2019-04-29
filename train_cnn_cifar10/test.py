@@ -62,6 +62,6 @@ def main(mid_model_name):
     print('Predicted: ', ' '.join('%2.2f' % prob[j] for j in range(batch_size)))
     
 if __name__ == '__main__':
-    mid_model_name = '/home/xiping/mygithub/pytorch_learn/train_cnn_cifar10/output/1_12000_loss_1.297938.pt'
+    #mid_model_name = '/home/xiping/mygithub/pytorch_learn/train_cnn_cifar10/output/1_12000_loss_1.297938.pt'
     mid_model_name = "C:\\SandyWork\\mygithub\\pytorch_learn\\train_cnn_cifar10\\output\\1_12000_loss_1.2831.pt"
     main(mid_model_name)

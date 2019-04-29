@@ -1,6 +1,8 @@
 .idea
+.zip
 train_cnn_cifar10/data/
 train_cnn_cifar10/output/
 test_cifar10_cpp/libtorch-shared-with-deps-latest.zip
 test_cifar10_cpp/libtorch
 test_cifar10_cpp/build
+test_cifar10_cpp/libtorch-win-shared-with-deps-latest
