@@ -124,12 +124,12 @@ int main() {
 			"/home/xiping/mygithub/pytorch_learn/test_cifar10_cpp/build/../../train_cnn_cifar10/ttt.bmp";
 #endif
 
-//	cv::Mat image = cv::imread(image_path);
-//	cv::Mat rsz;
-//	cv::resize(image, rsz, cv::Size(32, 32));
-//	cv::namedWindow("test", 1);
-//	cv::imshow("test", rsz);
-//	cv::waitKey(0);
+	// cv::Mat image = cv::imread(image_path);
+	// cv::Mat rsz;
+	// cv::resize(image, rsz, cv::Size(32, 32));
+	// cv::namedWindow("test", 1);
+	// cv::imshow("test", rsz);
+	// cv::waitKey(0);
 
 //	float* pbuf = new float[32*32*3];
 //	float* pbufb = pbuf;

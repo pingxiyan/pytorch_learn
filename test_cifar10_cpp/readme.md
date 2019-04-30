@@ -2,18 +2,41 @@
 test inference based on pytorch cpp interface.
 
 # Requirement
-1. libtorch
+1. Need to download "libtorch" to inference for cpp
 
 #### Ubuntu
 	$ wget https://download.pytorch.org/libtorch/cu90/libtorch-shared-with-deps-latest.zip
 #### Windows
 
+# Convert pickle model to libtorch script model.
+
+	$ train_cnn_cifar10/cvt_model2torchscript.py # refer this script
+
 # Test 
+In this test. inference image buffer to get same result, that buffer is from pytorch test.
 
 	mkdir build
 	cd build
-	cmake ..
+	cmake -DOpenCV_DIR=[path] -DTorch_DIR=[path] ..
 	make -j8
-	./testapp img.jpg
+	./testapp
 
-	
+**Result:**
+
+	GroundTruth: cat
+	Predicted: dog
+	Predicted: 97.7508
+
+
+# Known issues
+If we use ourself builded OpenCV, don't known why can't link opencv libraries. Errors log as follow: <br>
+
+	$ cmake -DOpenCV_DIR=/home/xiping/opensource/opencv/build ..
+	main.cpp:(.text+0xfe1): undefined reference to `cv::imread(std::string const&, int)'
+	main.cpp:(.text+0x10bb): undefined reference to `cv::namedWindow(std::string const&, int)'
+	main.cpp:(.text+0x1132): undefined reference to `cv::imshow(std::string const&, cv::_InputArray const&)'
+
+Using this /opt/anaconda/anaconda3/share/OpenCV, can normornly link. <br>
+
+	$ cmake -DOpenCV_DIR=/opt/anaconda/anaconda3/share/OpenCV ..
+

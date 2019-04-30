@@ -29,5 +29,14 @@ torch.utils.data.DataLoader(trainset, batch_size=4, shuffle=True, num_workers=0)
 
 https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html#sphx-glr-beginner-blitz-cifar10-tutorial-py <br>
 
-#### Classify CIFAR10
+#### Classify CIFAR10 Get Started
 
+**pytorch train**
+refer: pytorch_learn/train_cnn_cifar10/train.py
+
+**pytorch test**
+refer: pytorch_learn/train_cnn_cifar10/test.py
+
+**cpp inference**
+refer: pytorch_learn/test_cifar10_cpp
+detail refer:pytorch_learn/test_cifar10_cpp/readme.md
