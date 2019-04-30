@@ -131,22 +131,9 @@ int main() {
 	// cv::imshow("test", rsz);
 	// cv::waitKey(0);
 
-//	float* pbuf = new float[32*32*3];
-//	float* pbufb = pbuf;
-//	float* pbufg = pbuf+32*32;
-//	float* pbufr = pbuf+32*32*2;
-//    uint8_t* srcbuf = (uint8_t*)rsz.data;
-//	for(int h = 0; h < 32; h++){
-//		for(int w = 0; w < 32; w++){
-//			pbufb[h*32+w] = (srcbuf[h*32*3+w*3 + 0] - 0.5f)/0.5f;
-//			pbufg[h*32+w] = (srcbuf[h*32*3+w*3 + 1] - 0.5f)/0.5f;
-//			pbufr[h*32+w] = (srcbuf[h*32*3+w*3 + 2] - 0.5f)/0.5f;
-//		}
-//	}
-
 	torch::Device device = torch::kCPU;
 	if (torch::cuda::is_available()) {
-		std::cout << "CUDA is available! Training on GPU." << std::endl;
+		std::cout << "CUDA is available!" << std::endl;
 		device = torch::kCUDA;
 	} else {
 		std::cout << "CUDA is not available!" << std::endl;
@@ -210,14 +197,11 @@ int main() {
 		}
 	}
 
-	/* pytorch test result as follow:
-	 * GroundTruth:    cat
-	 * Predicted:    dog
-	 * Predicted:  97.75
-	 */
-
+	std::cout << "Please test your pickle model by pytorch firstly" << std::endl;
+	std::cout << "==============================" << std::endl;
 	std::cout << "GroundTruth: cat" << std::endl;
 	std::cout << "Predicted: " << classes_label[max_label_id] << std::endl;
 	std::cout << "Predicted: " << maxv << std::endl;
+	std::cout << "==============================" << std::endl;
 	return 0;
 }
