@@ -12,7 +12,7 @@ test inference based on pytorch cpp interface.
 
 	$ train_cnn_cifar10/cvt_model2torchscript.py # refer this script
 
-# Test 
+# Test CPU
 In this test. inference image buffer to get same result, that buffer is from pytorch test.
 
 	mkdir build
@@ -26,6 +26,14 @@ In this test. inference image buffer to get same result, that buffer is from pyt
 	GroundTruth: cat
 	Predicted: dog
 	Predicted: 97.7508
+	
+# Test CUDA
+
+	$ sudo cp cuda/include/cudnn.h /usr/local/cuda/include
+	$ sudo cp cuda/lib64/libcudnn* /usr/local/cuda/lib64
+	$ sudo chmod a+r /usr/local/cuda/include/cudnn.h /usr/local/cuda/lib64/libcudnn*
+	
+	refer:https://github.com/zccyman/pytorch-inference/blob/master/pytorch/src/pytorch_interface.cpp
 
 
 # Known issues

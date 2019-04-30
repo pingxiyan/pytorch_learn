@@ -144,6 +144,14 @@ int main() {
 //		}
 //	}
 
+	torch::Device device = torch::kCPU;
+	if (torch::cuda::is_available()) {
+		std::cout << "CUDA is available! Training on GPU." << std::endl;
+		device = torch::kCUDA;
+	} else {
+		std::cout << "CUDA is not available!" << std::endl;
+	}
+
 	std::cout << "run to:" << __LINE__ << std::endl;
 	std::shared_ptr<torch::jit::script::Module> module;
 	std::cout << "run to:" << __LINE__ << std::endl;
@@ -154,19 +162,37 @@ int main() {
 	std::cout << "run to:" << __LINE__ << std::endl;
 	assert(module != nullptr);
 
+	if (device == torch::kCUDA) {
+		module->to(torch::kCUDA);
+	}
+
 	std::vector<torch::jit::IValue> inputs;
 	std::cout << "run to:" << __LINE__ << std::endl;
 
 //	at::Tensor tensor_image = torch::from_blob(image.data, {1, 3, image.rows, image.cols}, at::kByte);
 //	tensor_image = tensor_image.to(at::kFloat);
 //	at::Tensor tensor_image = torch::from_blob(pbuf, {1, 3, 32, 32}, at::kFloat);
-	at::Tensor tensor_image = torch::from_blob(g_img_buf, { 1, 3, 32, 32 },
-			at::kFloat);
+	at::Tensor tensor_image = torch::from_blob(g_img_buf, { 1, 3, 32, 32 }, torch::kFloat32).clone();
 
+	std::cout << "run to:" << __LINE__ << std::endl;
+	if (device == torch::kCUDA) {
+		std::cout << tensor_image.type() << std::endl;
+		tensor_image.to(torch::kCUDA);
+		std::cout << tensor_image.type() << std::endl;
+	}
+
+	std::cout << "run to:" << __LINE__ << std::endl;
 	inputs.push_back(tensor_image);
-
+	std::cout << "run to:" << __LINE__ << std::endl;
 	// Execute the model and turn its output into a tensor.
+	double t1 = cv::getTickCount();
 	at::Tensor output = module->forward(inputs).toTensor();
+	double t2 = cv::getTickCount();
+	std::cout << "Infer time = " << ((t2 - t1)*1000)/cv::getTickFrequency() << std::endl;
+
+	if (device == torch::kCUDA) {
+		output = output.to(at::kCPU);	//inference
+	}
 
 //	std::cout << output.slice(/*dim=*/1, /*start=*/0, /*end=*/10) << '\n';
 
