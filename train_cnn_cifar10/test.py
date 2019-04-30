@@ -51,6 +51,19 @@ def main(mid_model_name):
     
     print(len(images), type(images[0]))
     
+    torchvision.utils.save_image(images[0], "ttt.bmp")
+    
+    
+    file = open("xxx.dat", "w") 
+    for c in range(3):
+        for h in range(32):
+            for w in range(32):
+                #print(images[0][c][h][w])
+                file.write(str(float(images[0][c][h][w])) + ",")  
+            file.write("\n")  
+    file.close() 
+
+    
     outputs = net(images)
     
     imshow(torchvision.utils.make_grid(images))
@@ -62,6 +75,6 @@ def main(mid_model_name):
     print('Predicted: ', ' '.join('%2.2f' % prob[j] for j in range(batch_size)))
     
 if __name__ == '__main__':
-    #mid_model_name = '/home/xiping/mygithub/pytorch_learn/train_cnn_cifar10/output/1_12000_loss_1.297938.pt'
-    mid_model_name = "C:\\SandyWork\\mygithub\\pytorch_learn\\train_cnn_cifar10\\output\\1_12000_loss_1.2831.pt"
+    mid_model_name = "/home/xiping/mygithub/pytorch_learn/train_cnn_cifar10/output/1_12000_loss_1.2715.pt"
+    #mid_model_name = "C:\\SandyWork\\mygithub\\pytorch_learn\\train_cnn_cifar10\\output\\1_12000_loss_1.2831.pt"
     main(mid_model_name)

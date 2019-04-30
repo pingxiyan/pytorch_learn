@@ -26,6 +26,9 @@ def cvt_model(pickle_model, script_model):
     print("convert complete")
     
 if __name__ == '__main__':
-    pickle_model = "C:\\SandyWork\\mygithub\\pytorch_learn\\train_cnn_cifar10\\output\\1_12000_loss_1.2663.pt"
-    script_model = "C:\\SandyWork\\mygithub\\pytorch_learn\\train_cnn_cifar10\\output\\1_12000_loss_1.2831.pts"
+    #pickle_model = "C:\\SandyWork\\mygithub\\pytorch_learn\\train_cnn_cifar10\\output\\1_12000_loss_1.2663.pt"
+    #script_model = "C:\\SandyWork\\mygithub\\pytorch_learn\\train_cnn_cifar10\\output\\1_12000_loss_1.2831.pts"
+    
+    pickle_model = "/home/xiping/mygithub/pytorch_learn/train_cnn_cifar10/output/1_12000_loss_1.2715.pt"
+    script_model = "/home/xiping/mygithub/pytorch_learn/train_cnn_cifar10/output/1_12000_loss_1.2715.pts"
     cvt_model(pickle_model, script_model)
