@@ -34,7 +34,7 @@ In this test. inference image buffer to get same result, that buffer is from pyt
 	$ sudo chmod a+r /usr/local/cuda/include/cudnn.h /usr/local/cuda/lib64/libcudnn*
 	
 	refer:https://github.com/zccyman/pytorch-inference/blob/master/pytorch/src/pytorch_interface.cpp
-
+https://oldpan.me/archives/pytorch-c-libtorch-inference
 
 # Known issues
 If we use ourself builded OpenCV, don't known why can't link opencv libraries. Errors log as follow: <br>
@@ -47,4 +47,3 @@ If we use ourself builded OpenCV, don't known why can't link opencv libraries. E
 Using this /opt/anaconda/anaconda3/share/OpenCV, can normornly link. <br>
 
 	$ cmake -DOpenCV_DIR=/opt/anaconda/anaconda3/share/OpenCV ..
-
