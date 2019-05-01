@@ -23,6 +23,11 @@ from network import Net
 output_dir="./output/"
 if not os.path.exists(output_dir):
     os.mkdir(output_dir)
+    
+if torch.cuda.is_available():
+    print("Support GPU")
+else:
+    print("Not support GPU, train based on CPU")
 
 # Normalize:
 # input[channel] = (input[channel] - mean[channel]) / std[channel]
