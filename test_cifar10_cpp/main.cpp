@@ -164,7 +164,7 @@ int main() {
 	std::cout << "run to:" << __LINE__ << std::endl;
 	if (device == torch::kCUDA) {
 		std::cout << tensor_image.type() << std::endl;
-		tensor_image.to(torch::kCUDA);
+		tensor_image = tensor_image.to(torch::kCUDA);
 		std::cout << tensor_image.type() << std::endl;
 	}
 

@@ -17,7 +17,7 @@ In this test. inference image buffer to get same result, that buffer is from pyt
 
 	mkdir build
 	cd build
-	cmake -DOpenCV_DIR=[path] -DTorch_DIR=[path] ..
+	cmake -DOpenCV_DIR=[path] -DCMAKE_PREFIX_PATH=[path] -DCUDANN_ROOT_DIR=[your cudnn path] ..
 	make -j8
 	./testapp
 
