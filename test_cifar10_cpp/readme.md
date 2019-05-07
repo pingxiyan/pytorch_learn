@@ -2,18 +2,16 @@
 test inference based on pytorch cpp interface.
 
 # Requirement
-1. Need to download "libtorch" to inference for cpp
-
-#### Ubuntu
-	$ wget https://download.pytorch.org/libtorch/cu90/libtorch-shared-with-deps-latest.zip
-#### Windows
+1. Need to download "libtorch" to inference for cpp <br>
+	Use pre-build libtorch. 	<br>
+	From source code build libtorch 	<br>
 
 # Convert pickle model to libtorch script model.
 
 	$ train_cnn_cifar10/cvt_model2torchscript.py # refer this script
 
-# Test CPU
-In this test. inference image buffer to get same result, that buffer is from pytorch test.
+# Test inference based on libtorch
+Inference an image, get classification result.
 
 	mkdir build
 	cd build
@@ -27,14 +25,32 @@ In this test. inference image buffer to get same result, that buffer is from pyt
 	Predicted: dog
 	Predicted: 97.7508
 	
-# Test CUDA
+#### Issues
+	| Environments | ISSUES |
+	| -------------------------------------      | ------------------------ |
+	| pre-build libtorch 1.1 cuda 92 linux       | conflict with OpenCV 4.0 |
+	| pre-build libtorch 1.1 CPU linux           | conflict with OpenCV 4.0 |
+	| pre-build libtorch 1.1 cuda 92 Win10       | cuda_is_available() alway return false |
+	| pre-build libtorch 1.0 cuda 92 Win10 debug | work, but speed is low |
+	| pre-build libtorch 1.1 CPU Win10           | ok |
+
+
+**Note** After copying CUDNN to /usr/local/cuda/, don't need to set '-DCUDNN_ROOT_DIR'.
 
 	$ sudo cp cuda/include/cudnn.h /usr/local/cuda/include
 	$ sudo cp cuda/lib64/libcudnn* /usr/local/cuda/lib64
 	$ sudo chmod a+r /usr/local/cuda/include/cudnn.h /usr/local/cuda/lib64/libcudnn*
+	Refer:
+	https://github.com/zccyman/pytorch-inference/blob/master/pytorch/src/pytorch_interface.cpp
+	https://oldpan.me/archives/pytorch-c-libtorch-inference
 	
-	refer:https://github.com/zccyman/pytorch-inference/blob/master/pytorch/src/pytorch_interface.cpp
-https://oldpan.me/archives/pytorch-c-libtorch-inference
+# Build pytorch for source code.
+
+	$ git clone --recursive https://github.com/pytorch/pytorch
+	$ git submodule sync
+	$ git submodule update --init --recursive
+	$ cd pytorch
+	$ python3 setup.py develop
 
 # Known issues
 If we use ourself builded OpenCV, don't known why can't link opencv libraries. Errors log as follow: <br>
@@ -47,3 +63,5 @@ If we use ourself builded OpenCV, don't known why can't link opencv libraries. E
 Using this /opt/anaconda/anaconda3/share/OpenCV, can normornly link. <br>
 
 	$ cmake -DOpenCV_DIR=/opt/anaconda/anaconda3/share/OpenCV ..
+	For anaconda OpenCV, don't support imshow.
+
