@@ -11,3 +11,5 @@ test_cifar10_cpp/libtorch_linux_cuda9.2/
 test_cifar10_cpp_eclipse/
 train_cnn_cifar10/__pycache__/
 train_cnn_cifar10/output_bk/
+test_cifar10_cpp/libtorch_1.1_cuda92
+test_cifar10_cpp/libtorch_1.1_cpu
