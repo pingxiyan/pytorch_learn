@@ -2,7 +2,7 @@
 #include <iostream>
 #include <torch/script.h> // One-stop header.
 
-#define USE_OPENCV
+//#define USE_OPENCV
 #ifdef USE_OPENCV
 #include <opencv2/opencv.hpp>
 #endif
@@ -120,6 +120,7 @@ int main() {
 	std::string image_path = "../cat.jpg";
 #else
 	std::string model_path = "../../train_cnn_cifar10/output/1_12000_loss_1.2715.pts";
+	model_path = "../../train_cnn_cifar10/output/1_12000_loss_1.2879.pts";
 	std::string image_path = "../../train_cnn_cifar10/bb.bmp";
 	image_path = "../../train_cnn_cifar10/ttt.bmp";
 #endif
@@ -132,9 +133,9 @@ int main() {
 	}
 	cv::Mat rsz;
 	cv::resize(image, rsz, cv::Size(32, 32));
-	cv::namedWindow("test", 1);
-	cv::imshow("test", rsz);
-	cv::waitKey(0);
+	// cv::namedWindow("test", 1);
+	// cv::imshow("test", rsz);
+	// cv::waitKey(0);
 #endif
 
 	torch::Device device = torch::kCPU;
@@ -162,8 +163,10 @@ int main() {
 	//tensor_image = tensor_image.permute( { 0, 3, 1, 2 });
 	tensor_image = tensor_image.to(at::kFloat);
 #else
+	// float *pppp = new float[32*32*3*10240];
+	// at::Tensor tensor_image = torch::from_blob(pppp, { 10240, 3, 32, 32 }, torch::kFloat32).clone();
 	at::Tensor tensor_image = torch::from_blob(g_img_buf, { 1, 3, 32, 32 }, torch::kFloat32).clone();
-	tensor_image = tensor_image.permute( { 0, 3, 1, 2 });
+	//tensor_image = tensor_image.permute( { 0, 3, 1, 2 });
 #endif
 	
 	if (device == torch::kCUDA) {
@@ -172,10 +175,12 @@ int main() {
 
 	inputs.push_back(tensor_image);
 	// Execute the model and turn its output into a tensor.
-	double t1 = cv::getTickCount();
+	std::cout << "start infer" << std::endl;
+	auto t1 = std::chrono::high_resolution_clock::now();
 	at::Tensor output = module->forward(inputs).toTensor();
-	double t2 = cv::getTickCount();
-	std::cout << "Infer time = " << ((t2 - t1)*1000)/cv::getTickFrequency() << std::endl;
+	auto t2 = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double, std::milli> diff = t2 - t1;
+	std::cout << "Infer time = " << diff.count() << "ms" << std::endl;
 
 	if (device == torch::kCUDA) {
 		output = output.to(at::kCPU);	//inference
