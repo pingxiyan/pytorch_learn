@@ -26,13 +26,14 @@ Inference an image, get classification result.
 	Predicted: 97.7508
 	
 #### Issues
-	| Environments | ISSUES |
-	| -------------------------------------      | ------------------------ |
-	| pre-build libtorch 1.1 cuda 92 linux       | conflict with OpenCV 4.0 |
-	| pre-build libtorch 1.1 CPU linux           | conflict with OpenCV 4.0 |
-	| pre-build libtorch 1.1 cuda 92 Win10       | cuda_is_available() alway return false |
-	| pre-build libtorch 1.0 cuda 92 Win10 debug | work, but speed is low |
-	| pre-build libtorch 1.1 CPU Win10           | ok |
+
+| Environments | ISSUES |
+| -------------------------------------      | ------------------------ |
+| pre-build libtorch 1.1 cuda 92 linux       | conflict with OpenCV 4.0 |
+| pre-build libtorch 1.1 CPU linux           | conflict with OpenCV 4.0 |
+| pre-build libtorch 1.1 cuda 92 Win10       | cuda_is_available() alway return false |
+| pre-build libtorch 1.0 cuda 92 Win10 debug | work, but speed is low |
+| pre-build libtorch 1.1 CPU Win10           | ok |
 
 
 **Note** After copying CUDNN to /usr/local/cuda/, don't need to set '-DCUDNN_ROOT_DIR'.
