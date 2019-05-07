@@ -43,14 +43,22 @@ Inference an image, get classification result.
 	Refer:
 	https://github.com/zccyman/pytorch-inference/blob/master/pytorch/src/pytorch_interface.cpp
 	https://oldpan.me/archives/pytorch-c-libtorch-inference
-	
+
 # Build pytorch for source code.
 
 	$ git clone --recursive https://github.com/pytorch/pytorch
 	$ git submodule sync
 	$ git submodule update --init --recursive
 	$ cd pytorch
+
+	# build pythorch
 	$ python3 setup.py develop
+
+	# build libtorch
+	$ mkdir build && cd build
+	$ python3 ../tools/build_libtorch.py  # wait for a long time
+
+	Set -DCMAKE_INSTALL_PREFIX=[pytorch]/torch/share/cmake
 
 # Known issues
 If we use ourself builded OpenCV, don't known why can't link opencv libraries. Errors log as follow: <br>

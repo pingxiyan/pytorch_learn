@@ -2,7 +2,10 @@
 #include <iostream>
 #include <torch/script.h> // One-stop header.
 
+#define USE_OPENCV
+#ifdef USE_OPENCV
 #include <opencv2/opencv.hpp>
+#endif
 
 static std::string classes_label[] = {"plane", "car", "bird", "cat", "deer", "dog", "frog", "horse", "ship", "truck"};
 /**
@@ -116,20 +119,23 @@ int main() {
 	model_path = "C:\\SandyWork\\mygithub\\pytorch_learn\\train_cnn_cifar10\\output\\1_12000_loss_1.2831.pts";
 	std::string image_path = "../cat.jpg";
 #else
-	std::string model_path =
-			"/home/xiping/mygithub/pytorch_learn/train_cnn_cifar10/output/1_12000_loss_1.2715.pts";
-	std::string image_path =
-			"/home/xiping/mygithub/pytorch_learn/train_cnn_cifar10/bb.bmp";
-	image_path =
-			"/home/xiping/mygithub/pytorch_learn/test_cifar10_cpp/build/../../train_cnn_cifar10/ttt.bmp";
+	std::string model_path = "../../train_cnn_cifar10/output/1_12000_loss_1.2715.pts";
+	std::string image_path = "../../train_cnn_cifar10/bb.bmp";
+	image_path = "../../train_cnn_cifar10/ttt.bmp";
 #endif
 
-	// cv::Mat image = cv::imread(image_path);
-	// cv::Mat rsz;
-	// cv::resize(image, rsz, cv::Size(32, 32));
-	// cv::namedWindow("test", 1);
-	// cv::imshow("test", rsz);
-	// cv::waitKey(0);
+#ifdef USE_OPENCV
+	cv::Mat image = cv::imread(image_path);
+	if(image.empty()){
+		std::cout << "Can't imread: " << image_path << std::endl;
+		return 0;
+	}
+	cv::Mat rsz;
+	cv::resize(image, rsz, cv::Size(32, 32));
+	cv::namedWindow("test", 1);
+	cv::imshow("test", rsz);
+	cv::waitKey(0);
+#endif
 
 	torch::Device device = torch::kCPU;
 	if (torch::cuda::is_available()) {
@@ -139,14 +145,10 @@ int main() {
 		std::cout << "CUDA is not available!" << std::endl;
 	}
 
-	std::cout << "run to:" << __LINE__ << std::endl;
 	std::shared_ptr<torch::jit::script::Module> module;
-	std::cout << "run to:" << __LINE__ << std::endl;
-	std::cout << model_path << std::endl;
 
 	// Deserialize the ScriptModule from a file using torch::jit::load().
 	module = torch::jit::load(model_path);
-	std::cout << "run to:" << __LINE__ << std::endl;
 	assert(module != nullptr);
 
 	if (device == torch::kCUDA) {
@@ -154,23 +156,21 @@ int main() {
 	}
 
 	std::vector<torch::jit::IValue> inputs;
-	std::cout << "run to:" << __LINE__ << std::endl;
 
-//	at::Tensor tensor_image = torch::from_blob(image.data, {1, 3, image.rows, image.cols}, at::kByte);
-//	tensor_image = tensor_image.to(at::kFloat);
-//	at::Tensor tensor_image = torch::from_blob(pbuf, {1, 3, 32, 32}, at::kFloat);
+#ifdef USE_OPENCV
+	at::Tensor tensor_image = torch::from_blob(rsz.data, {1, 3, rsz.rows, rsz.cols}, at::kByte);
+	//tensor_image = tensor_image.permute( { 0, 3, 1, 2 });
+	tensor_image = tensor_image.to(at::kFloat);
+#else
 	at::Tensor tensor_image = torch::from_blob(g_img_buf, { 1, 3, 32, 32 }, torch::kFloat32).clone();
-
-	std::cout << "run to:" << __LINE__ << std::endl;
+	tensor_image = tensor_image.permute( { 0, 3, 1, 2 });
+#endif
+	
 	if (device == torch::kCUDA) {
-		std::cout << tensor_image.type() << std::endl;
 		tensor_image = tensor_image.to(torch::kCUDA);
-		std::cout << tensor_image.type() << std::endl;
 	}
 
-	std::cout << "run to:" << __LINE__ << std::endl;
 	inputs.push_back(tensor_image);
-	std::cout << "run to:" << __LINE__ << std::endl;
 	// Execute the model and turn its output into a tensor.
 	double t1 = cv::getTickCount();
 	at::Tensor output = module->forward(inputs).toTensor();
