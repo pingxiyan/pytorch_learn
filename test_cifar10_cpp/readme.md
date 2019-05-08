@@ -72,8 +72,10 @@ If we use ourself builded OpenCV, don't known why can't link opencv libraries. E
 	main.cpp:(.text+0x10bb): undefined reference to `cv::namedWindow(std::string const&, int)'
 	main.cpp:(.text+0x1132): undefined reference to `cv::imshow(std::string const&, cv::_InputArray const&)'
 
-Using this /opt/anaconda/anaconda3/share/OpenCV, can normornly link. <br>
+Using this /opt/anaconda/anaconda3/share/OpenCV, can normornly link.  <br>
 
 	$ cmake -DOpenCV_DIR=/opt/anaconda/anaconda3/share/OpenCV ..
 	For anaconda OpenCV, don't support imshow.
+
+Using libtorch which builded from source code can fix the issue.
 

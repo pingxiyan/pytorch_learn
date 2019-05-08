@@ -2,7 +2,7 @@
 #include <iostream>
 #include <torch/script.h> // One-stop header.
 
-//#define USE_OPENCV
+#define USE_OPENCV
 #ifdef USE_OPENCV
 #include <opencv2/opencv.hpp>
 #endif
@@ -120,7 +120,7 @@ int main() {
 	std::string image_path = "../cat.jpg";
 #else
 	std::string model_path = "../../train_cnn_cifar10/output/1_12000_loss_1.2715.pts";
-	model_path = "../../train_cnn_cifar10/output/1_12000_loss_1.2879.pts";
+	//model_path = "../../train_cnn_cifar10/output/1_12000_loss_1.2879.pts";
 	std::string image_path = "../../train_cnn_cifar10/bb.bmp";
 	image_path = "../../train_cnn_cifar10/ttt.bmp";
 #endif
@@ -159,8 +159,8 @@ int main() {
 	std::vector<torch::jit::IValue> inputs;
 
 #ifdef USE_OPENCV
-	at::Tensor tensor_image = torch::from_blob(rsz.data, {1, 3, rsz.rows, rsz.cols}, at::kByte);
-	//tensor_image = tensor_image.permute( { 0, 3, 1, 2 });
+	at::Tensor tensor_image = torch::from_blob(rsz.data, {1, rsz.rows, rsz.cols, 3}, at::kByte);
+	tensor_image = tensor_image.permute( { 0, 3, 1, 2 });
 	tensor_image = tensor_image.to(at::kFloat);
 #else
 	// float *pppp = new float[32*32*3*10240];
