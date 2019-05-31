@@ -5,8 +5,11 @@ test inference based on pytorch cpp interface.
 1. Need to download "libtorch" to inference for cpp <br>
 	Use pre-build libtorch. 	<br>
 	From source code build libtorch 	<br>
+	
 2. cudnn: libcudnn7-dev_7.5.1.10-1+cuda9.2_amd64.deb
+
 	$ sudo dpkg -i libcudnn7-dev_7.5.1.10-1+cuda9.2_amd64.deb
+	
 3. OpenCV: Image read and show test.
 
 # Convert pickle model to libtorch script model.
