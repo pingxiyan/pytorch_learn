@@ -31,12 +31,12 @@ https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html#sphx-glr-begi
 
 #### Classify CIFAR10 Get Started
 
-**pytorch train**
-refer: pytorch_learn/train_cnn_cifar10/train.py
+**pytorch train**    <br>
+refer: pytorch_learn/train_cnn_cifar10/train.py    <br>
 
-**pytorch test**
-refer: pytorch_learn/train_cnn_cifar10/test.py
+**pytorch test**    <br>
+refer: pytorch_learn/train_cnn_cifar10/test.py    <br>
 
-**cpp inference**
-refer: pytorch_learn/test_cifar10_cpp
-detail refer:pytorch_learn/test_cifar10_cpp/readme.md
+**cpp inference**    <br>
+refer: pytorch_learn/test_cifar10_cpp    <br>
+detail refer:pytorch_learn/test_cifar10_cpp/readme.md    <br>
