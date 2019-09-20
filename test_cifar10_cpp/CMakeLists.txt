@@ -10,7 +10,9 @@ message(STATUS "=============================")
 message(STATUS "${OpenCV_INCLUDE_DIRS}")
 message(STATUS "=============================")
 
-find_package(Torch REQUIRED)
+#find_package(Torch REQUIRED)
+
+find_package(Torch REQUIRED HINTS /home/xiping/mydisk2/mygithub/chenwei803/person_analysis/call_libtorch/libtorch_src_code/pytorch/torch/share/cmake)
 
 add_executable(${TARGET_NAME} main.cpp)
 

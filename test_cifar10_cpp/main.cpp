@@ -122,7 +122,7 @@ int main() {
 	std::string model_path = "../../train_cnn_cifar10/output/1_12000_loss_1.2715.pts";
 	//model_path = "../../train_cnn_cifar10/output/1_12000_loss_1.2879.pts";
 	std::string image_path = "../../train_cnn_cifar10/bb.bmp";
-	image_path = "../../train_cnn_cifar10/ttt.bmp";
+	image_path = "../../../chenwei803/person_analysis/call_caffe/caffe_src_code/caffe/examples/images/cat.jpg";
 #endif
 
 #ifdef USE_OPENCV
@@ -146,14 +146,12 @@ int main() {
 		std::cout << "CUDA is not available!" << std::endl;
 	}
 
-	std::shared_ptr<torch::jit::script::Module> module;
-
 	// Deserialize the ScriptModule from a file using torch::jit::load().
-	module = torch::jit::load(model_path);
-	assert(module != nullptr);
+	torch::jit::script::Module module = torch::jit::load(model_path);
+	// assert(module != nullptr);
 
 	if (device == torch::kCUDA) {
-		module->to(torch::kCUDA);
+		module.to(torch::kCUDA);
 	}
 
 	std::vector<torch::jit::IValue> inputs;
@@ -177,7 +175,7 @@ int main() {
 	// Execute the model and turn its output into a tensor.
 	std::cout << "start infer" << std::endl;
 	auto t1 = std::chrono::high_resolution_clock::now();
-	at::Tensor output = module->forward(inputs).toTensor();
+	at::Tensor output = module.forward(inputs).toTensor();
 	auto t2 = std::chrono::high_resolution_clock::now();
 	std::chrono::duration<double, std::milli> diff = t2 - t1;
 	std::cout << "Infer time = " << diff.count() << "ms" << std::endl;

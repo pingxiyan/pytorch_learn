@@ -57,15 +57,19 @@ Inference an image, get classification result.
 	$ git submodule sync
 	$ git submodule update --init --recursive
 	$ cd pytorch
+	$ git checkout -b v1.2.0 origin/v1.2.0	# Only verify pass for tag:v1.2.0
 
 	# build pythorch
-	$ python3 setup.py develop
+	$ sudo -E python3 setup.py develop	# Sometimes have permission problem, so use sodo.
 
 	# build libtorch
 	$ mkdir build && cd build
-	$ python3 ../tools/build_libtorch.py  # wait for a long time
+	$ sudo -E python3 ../tools/build_libtorch.py  # wait for a long time
 
+	# Your test app need set below env.
 	Set -DCMAKE_INSTALL_PREFIX=[pytorch]/torch/share/cmake
+	# Or
+	find_package(Torch REQUIRED HINTS [PATH]/pytorch/torch/share/cmake)
 
 # Known issues
 If we use ourself builded OpenCV, don't known why can't link opencv libraries. Errors log as follow: <br>
