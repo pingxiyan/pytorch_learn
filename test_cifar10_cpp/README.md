@@ -84,5 +84,5 @@ Using this /opt/anaconda/anaconda3/share/OpenCV, can normornly link.  <br>
 	$ cmake -DOpenCV_DIR=/opt/anaconda/anaconda3/share/OpenCV ..
 	For anaconda OpenCV, don't support imshow.
 
-Using libtorch which builded from source code can fix the issue.
-
+Using libtorch which builded from source code can fix the issue. <br>
+Latest pre-trained vesion[1.3.1] had fixed this issue. <br>
